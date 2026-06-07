@@ -1,9 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE_URL = "mysql+pymysql://root:Yokesh%40123@localhost:3306/train_booking_db"
+DATABASE_URL = "mysql+pymysql://root:lNpisErkBGITvVHfjnFqpCcKaOvgajbO@acela.proxy.rlwy.net:11507/railway"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True
+)
 
 SessionLocal = sessionmaker(
     autocommit=False,
