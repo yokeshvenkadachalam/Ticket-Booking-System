@@ -2,272 +2,289 @@ import { useEffect, useState } from "react";
 import API from "../../services/api";
 
 function Admin() {
-  const [trains, setTrains] = useState([]);
-  const [bookings, setBookings] = useState([]);
+const [trains, setTrains] = useState([]);
+const [bookings, setBookings] = useState([]);
 
-  const [form, setForm] = useState({
-    train_number: "",
-    train_name: "",
-    source: "",
-    destination: "",
-    departure_time: "",
-    arrival_time: "",
-    available_seats: "",
-    fare: ""
-  });
+const [form, setForm] = useState({
+train_number: "",
+train_name: "",
+source: "",
+destination: "",
+departure_time: "",
+arrival_time: "",
+available_seats: "",
+fare: ""
+});
 
-  useEffect(() => {
-    fetchTrains();
-    fetchBookings();
-  }, []);
+useEffect(() => {
+fetchTrains();
+fetchBookings();
+}, []);
 
-  const fetchTrains = async () => {
-    const response = await API.get("/admin/trains");
-    setTrains(response.data);
-  };
+const fetchTrains = async () => {
+const response = await API.get("/admin/trains");
+setTrains(response.data);
+};
 
-  const fetchBookings = async () => {
-    const response = await API.get("/admin/bookings");
-    setBookings(response.data);
-  };
+const fetchBookings = async () => {
+const response = await API.get("/admin/bookings");
+setBookings(response.data);
+};
 
-  const addTrain = async (e) => {
-    e.preventDefault();
+const addTrain = async (e) => {
+e.preventDefault();
 
-    await API.post("/admin/train", form);
+```
+await API.post("/admin/train", form);
 
-    alert("Train Added Successfully");
+alert("Train Added Successfully");
 
-    fetchTrains();
+fetchTrains();
 
-    setForm({
-      train_number: "",
-      train_name: "",
-      source: "",
-      destination: "",
-      departure_time: "",
-      arrival_time: "",
-      available_seats: "",
-      fare: ""
-    });
-  };
+setForm({
+  train_number: "",
+  train_name: "",
+  source: "",
+  destination: "",
+  departure_time: "",
+  arrival_time: "",
+  available_seats: "",
+  fare: ""
+});
+```
 
-  const deleteTrain = async (id) => {
-    await API.delete(`/admin/train/${id}`);
+};
 
-    alert("Train Deleted");
+const deleteTrain = async (id) => {
+await API.delete(`/admin/train/${id}`);
 
-    fetchTrains();
-  };
+```
+alert("Train Deleted");
 
-  return (
-    <div className="container mt-4">
+fetchTrains();
+```
 
-      <h2 className="mb-4">Admin Dashboard</h2>
+};
 
-      <div className="card p-4 mb-4">
+return ( <div className="container mt-4">
 
-        <h4>Add Train</h4>
+```
+  <h2 className="mb-4">Admin Dashboard</h2>
 
-        <form onSubmit={addTrain}>
+  <div className="card p-4 mb-4">
 
-          <input
-            className="form-control mb-2"
-            placeholder="Train Number"
-            value={form.train_number}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                train_number: e.target.value
-              })
-            }
-          />
+    <h4>Add Train</h4>
 
-          <input
-            className="form-control mb-2"
-            placeholder="Train Name"
-            value={form.train_name}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                train_name: e.target.value
-              })
-            }
-          />
+    <form onSubmit={addTrain}>
 
-          <input
-            className="form-control mb-2"
-            placeholder="Source"
-            value={form.source}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                source: e.target.value
-              })
-            }
-          />
+      <input
+        className="form-control mb-2"
+        placeholder="Train Number"
+        value={form.train_number}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            train_number: e.target.value
+          })
+        }
+      />
 
-          <input
-            className="form-control mb-2"
-            placeholder="Destination"
-            value={form.destination}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                destination: e.target.value
-              })
-            }
-          />
+      <input
+        className="form-control mb-2"
+        placeholder="Train Name"
+        value={form.train_name}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            train_name: e.target.value
+          })
+        }
+      />
 
-          <input
-            className="form-control mb-2"
-            placeholder="Departure Time"
-            value={form.departure_time}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                departure_time: e.target.value
-              })
-            }
-          />
+      <input
+        className="form-control mb-2"
+        placeholder="Source"
+        value={form.source}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            source: e.target.value
+          })
+        }
+      />
 
-          <input
-            className="form-control mb-2"
-            placeholder="Arrival Time"
-            value={form.arrival_time}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                arrival_time: e.target.value
-              })
-            }
-          />
+      <input
+        className="form-control mb-2"
+        placeholder="Destination"
+        value={form.destination}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            destination: e.target.value
+          })
+        }
+      />
 
-          <input
-            className="form-control mb-2"
-            placeholder="Seats"
-            value={form.available_seats}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                available_seats: e.target.value
-              })
-            }
-          />
+      <label className="form-label">
+        Departure Time
+      </label>
 
-          <input
-            className="form-control mb-3"
-            placeholder="Fare"
-            value={form.fare}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                fare: e.target.value
-              })
-            }
-          />
+      <input
+        type="time"
+        className="form-control mb-2"
+        value={form.departure_time.replace(":00", "")}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            departure_time: e.target.value + ":00"
+          })
+        }
+      />
 
-          <button className="btn btn-success">
-            Add Train
-          </button>
+      <label className="form-label">
+        Arrival Time
+      </label>
 
-        </form>
+      <input
+        type="time"
+        className="form-control mb-2"
+        value={form.arrival_time.replace(":00", "")}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            arrival_time: e.target.value + ":00"
+          })
+        }
+      />
 
-      </div>
+      <input
+        type="number"
+        className="form-control mb-2"
+        placeholder="Seats"
+        value={form.available_seats}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            available_seats: Number(e.target.value)
+          })
+        }
+      />
 
-      <div className="card p-4 mb-4">
+      <input
+        type="number"
+        className="form-control mb-3"
+        placeholder="Fare"
+        value={form.fare}
+        onChange={(e) =>
+          setForm({
+            ...form,
+            fare: Number(e.target.value)
+          })
+        }
+      />
 
-        <h4>All Trains</h4>
+      <button className="btn btn-success">
+        Add Train
+      </button>
 
-        <table className="table">
+    </form>
 
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Train</th>
-              <th>Route</th>
-              <th></th>
-            </tr>
-          </thead>
+  </div>
 
-          <tbody>
+  <div className="card p-4 mb-4">
 
-            {trains.map((train) => (
+    <h4>All Trains</h4>
 
-              <tr key={train.id}>
+    <table className="table">
 
-                <td>{train.id}</td>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Train</th>
+          <th>Route</th>
+          <th></th>
+        </tr>
+      </thead>
 
-                <td>{train.train_name}</td>
+      <tbody>
 
-                <td>
-                  {train.source} → {train.destination}
-                </td>
+        {trains.map((train) => (
 
-                <td>
+          <tr key={train.id}>
 
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() =>
-                      deleteTrain(train.id)
-                    }
-                  >
-                    Delete
-                  </button>
+            <td>{train.id}</td>
 
-                </td>
+            <td>{train.train_name}</td>
 
-              </tr>
+            <td>
+              {train.source} → {train.destination}
+            </td>
 
-            ))}
+            <td>
 
-          </tbody>
+              <button
+                className="btn btn-danger btn-sm"
+                onClick={() =>
+                  deleteTrain(train.id)
+                }
+              >
+                Delete
+              </button>
 
-        </table>
+            </td>
 
-      </div>
+          </tr>
 
-      <div className="card p-4">
+        ))}
 
-        <h4>All Bookings</h4>
+      </tbody>
 
-        <table className="table">
+    </table>
 
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Passenger</th>
-              <th>PNR</th>
-              <th>Seat</th>
-            </tr>
-          </thead>
+  </div>
 
-          <tbody>
+  <div className="card p-4">
 
-            {bookings.map((booking) => (
+    <h4>All Bookings</h4>
 
-              <tr key={booking.id}>
+    <table className="table">
 
-                <td>{booking.id}</td>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Passenger</th>
+          <th>PNR</th>
+          <th>Seat</th>
+        </tr>
+      </thead>
 
-                <td>{booking.passenger_name}</td>
+      <tbody>
 
-                <td>{booking.pnr_number}</td>
+        {bookings.map((booking) => (
 
-                <td>{booking.seat_number}</td>
+          <tr key={booking.id}>
 
-              </tr>
+            <td>{booking.id}</td>
 
-            ))}
+            <td>{booking.passenger_name}</td>
 
-          </tbody>
+            <td>{booking.pnr_number}</td>
 
-        </table>
+            <td>{booking.seat_number}</td>
 
-      </div>
+          </tr>
 
-    </div>
-  );
+        ))}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+);
 }
 
 export default Admin;
